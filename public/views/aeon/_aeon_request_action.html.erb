@@ -1,0 +1,26 @@
+<%
+puts "Aeon Fulfillment Plugin -- Initializing Plugin..."
+
+mapper = AeonRecordMapper.mapper_for(record)
+%>
+
+<% unless mapper.hide_button? %>
+
+  <% if mapper.show_action? && tc = mapper.top_containers.first %>
+    <a id='aeon-request' class='btn btn-default' href="<%= app_prefix(tc["ref"]) %>">
+      <i class="<%= t('plugins.aeon_fulfillment.request_button_icon') %>"></i><br/>
+      <%= t('plugins.aeon_fulfillment.request_button_label', label: "#{tc['_resolved']['type'].humanize} #{tc['_resolved']['indicator']}") %>
+    </a>
+  <% else %>
+
+    <button class="btn btn-default page_action request" disabled="true">
+      <i class="fa fa-external-link fa-3x"></i><br/><%= t('plugins.aeon_fulfillment.request_button_label', label: "Not Allowed") %>
+    </button>
+
+  <% end %>
+
+<% end %>
+
+<% 
+  puts "Aeon Fulfillment Plugin -- Finished initializing plugin." 
+%>

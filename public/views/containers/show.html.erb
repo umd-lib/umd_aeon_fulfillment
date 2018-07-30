@@ -1,0 +1,54 @@
+<%
+puts "Aeon Fulfillment Plugin -- Initializing Plugin..."
+
+mapper = AeonRecordMapper.mapper_for(@result)
+
+%>
+
+<div id="main-content" class="containers">
+<div class="row">
+  <div class="information col-sm-7">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  </div>
+  <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-9">
+    <% unless @results.blank? || @results['total_hits'] == 0 %>
+      <h3><%= t('contains', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
+      <% @results.records.each do |result| %>
+        <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
+      <% end %>
+      <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+    <% end %>
+  </div>
+
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+  	<% if mapper.show_action?  %>
+		  <div class="alert alert-info" role="alert"><%= t('plugins.aeon_fulfillment.request_instructions') %></div>	
+			<%= form_tag "#{mapper.repo_settings[:aeon_web_url]}?action=11&type=200", :id => 'aeon_request_sub', :target => (mapper.repo_settings.fetch(:request_in_new_tab, false) ? 'aeon_request' : '_self') do |f| %>
+				<% mapper.map.each do |name, value| %>
+					<% if name.casecmp('requests').zero? %>
+						<% value.each do |request| %>
+							<% request.each do |request_param, request_value| %>
+								<input type='hidden' name='<%= request_param %>' value='<%= request_value %>' />
+							<% end %>
+						<% end %>
+					<% else %>
+						<input type='hidden' name='<%= name %>' value='<%= value %>' />
+					<% end %>
+				<% end %>
+
+				<button type="submit" class="btn page_action request btn-default" title="<%= t('plugins.aeon_fulfillment.request_button_label', label: @result.display_string) %>">
+					<i class="<%= t('plugins.aeon_fulfillment.request_button_icon') %>"></i><br/><%= t('plugins.aeon_fulfillment.request_button_label', label: @result.display_string ) %>
+				</button>
+    	<% end %>
+    <% end %> 
+		<% unless @results.blank? || @results['total_hits'] == 0 %>
+      <%= render partial: 'shared/facets' %>
+    <% end %>
+  </div>
+</div>
+</div>
