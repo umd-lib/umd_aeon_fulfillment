@@ -9,11 +9,10 @@ class AeonContainerMapper < AeonRecordMapper
   # values to values in the provided record.
   def record_fields
     mappings = super
-    display_string = record.json['display_string']
-    mappings['title'] = display_string
-    if mappings['identifier'].blank?
-      mappings['identifier'] = display_string
-    end
+    # we pull the title info from the json_fields. Also ditch any blank values. 
+    mappings['title'] = nil
+    mappings.delete_if { |k,v| v.blank?  } 
+    mappings['identifier'] ||= record.json['display_string']
     mappings
   end
 
@@ -35,7 +34,13 @@ class AeonContainerMapper < AeonRecordMapper
                 "instance_top_container_uri_1": json['uri'] }
 
     collection = json['collection']
+    collection_title = ''
+
     if collection
+      collection
+        .select { |c| c['display_string'].present? }
+        .each { |c| collection_title << "#{c['display_string']} " }
+
       request['instance_top_container_collection_identifier_1'] =
         collection
         .select { |c| c['identifier'].present? }
@@ -45,15 +50,20 @@ class AeonContainerMapper < AeonRecordMapper
 
     series = json['series']
     if series
-      request['instance_top_container_series_identifier_1'] =
-        series
-        .select { |s| s['display_string'].present? }
-        .map { |s| s['display_string'] }
-        .join('; ')
+      series_identifier = series
+                          .select { |s| s['display_string'].present? }
+                          .map { |s| s['display_string'] }
+                          .join('; ')
+      collection_title << series_identifier
+      request['instance_top_container_series_identifier_1'] = series_identifier
+      mappings['level'] = series
+                          .select { |s| s['level_display_string'].present? }
+                          .map { |s| s['level_display_string'] }
+                          .join('; ')
     end
 
+    request['title'] = collection_title.chomp
     mappings['Requests'] << request
-    puts mappings.inspect
     mappings
   end
 end
