@@ -39,7 +39,7 @@ class AeonContainerMapper < AeonRecordMapper
     if collection
       collection
         .select { |c| c['display_string'].present? }
-        .each { |c| collection_title << c['display_string'] }
+        .each { |c| collection_title << "#{c['display_string']} " }
 
       request['instance_top_container_collection_identifier_1'] =
         collection
@@ -62,7 +62,7 @@ class AeonContainerMapper < AeonRecordMapper
                           .join('; ')
     end
 
-    request['title'] = collection_title
+    request['title'] = collection_title.chomp
     mappings['Requests'] << request
     mappings
   end
