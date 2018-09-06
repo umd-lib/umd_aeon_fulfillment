@@ -4,4 +4,6 @@ en:
       request_button_icon: fa fa-external-link fa-3x
       request_button_label: "Request %{label}" 
       requesting_disabled: This record cannot be sent in a request.
-      request_instructions: You can request this box via Aeon. Note that on the Aeon site you will still need to review and submit the request.
+      request_instructions: You must request this box via your research account. Note that on the request site you will still need to review and submit the request.
+      request_not_allowed: Please request at box level
+      request_flash_notice: Use the collection organization menu to identify relevant boxes and to place requests.
