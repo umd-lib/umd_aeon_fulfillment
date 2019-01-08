@@ -24,7 +24,7 @@ mapper = AeonRecordMapper.mapper_for(@result)
 
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
   	<% if mapper.show_action?  %>
-		  <div class="alert alert-info" role="alert"><%= t('plugins.aeon_fulfillment.request_instructions') %></div>	
+		  <div class="request_instructions"><%= t('plugins.aeon_fulfillment.request_instructions') %></div>
 			<%= form_tag "#{mapper.repo_settings[:aeon_web_url]}?action=11&type=200", :id => 'aeon_request_sub', :target => (mapper.repo_settings.fetch(:request_in_new_tab, false) ? 'aeon_request' : '_self') do |f| %>
 				<% mapper.map.each do |name, value| %>
 					<% if name.casecmp('requests').zero? %>
@@ -42,7 +42,7 @@ mapper = AeonRecordMapper.mapper_for(@result)
 					<i class="<%= t('plugins.aeon_fulfillment.request_button_icon') %>"></i><br/><%= t('plugins.aeon_fulfillment.request_button_label', label: @result.display_string ) %>
 				</button>
     	<% end %>
-    <% end %> 
+    <% end %>
 		<% unless @results.blank? || @results['total_hits'] == 0 %>
       <%= render partial: 'shared/facets' %>
     <% end %>
