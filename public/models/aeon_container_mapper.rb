@@ -9,9 +9,9 @@ class AeonContainerMapper < AeonRecordMapper
   # values to values in the provided record.
   def record_fields
     mappings = super
-    # we pull the title info from the json_fields. Also ditch any blank values. 
+    # we pull the title info from the json_fields. Also ditch any blank values.
     mappings['title'] = nil
-    mappings.delete_if { |k,v| v.blank?  } 
+    mappings.delete_if { |k,v| v.blank?  }
     mappings['identifier'] ||= record.json['display_string']
     mappings
   end
@@ -60,6 +60,20 @@ class AeonContainerMapper < AeonRecordMapper
                           .select { |s| s['level_display_string'].present? }
                           .map { |s| s['level_display_string'] }
                           .join('; ')
+    end
+
+    container_locations = json['container_locations']
+    if container_locations
+      # As there may be multiple locations, select the first location that is
+      # marked as "current", assuming that is where the container actually is
+      current_location = container_locations.select { |s| s['status'] == 'current' }.first
+      location_title = current_location.dig('_resolved', 'title')
+      if location_title
+        # Note: The "physical_location_note" does not appear in the Aeon
+        # request interface. Can use "creators" to show that something
+        # actually gets sent.
+        request['physical_location_note'] = location_title
+      end
     end
 
     request['title'] = collection_title.chomp
