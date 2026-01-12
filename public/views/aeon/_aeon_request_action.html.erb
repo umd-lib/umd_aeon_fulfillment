@@ -1,21 +1,36 @@
-<% 
-    mapper = AeonRecordMapper.mapper_for(record)
+<%
+Rails.logger.info("Aeon Fulfillment Plugin") { "Initializing Plugin..." }
+
+mapper = AeonRecordMapper.mapper_for(record)
 %>
 
-<% unless mapper.hide_button? %>
+<% if mapper.configured? %>
 
-  <% if mapper.show_action? && tc = mapper.top_containers.first %>
-    <a id='aeon-request' class='btn btn-default' href="<%= app_prefix(tc["ref"]) %>">
-      <i class="<%= t('plugins.aeon_fulfillment.request_button_icon') %>"></i><br/>
-      <%= t('plugins.aeon_fulfillment.request_button_label',
-            label: "#{ tc['_resolved']['type']? tc['_resolved']['type'].humanize : 'Container'} #{tc['_resolved']['indicator']}") %>
-    </a>
-  <% else %>
+  <%= javascript_include_tag "#{@base_url}/assets/js/aeon_request_action.js" %>
 
+  <%# UMD Customization %>
+  <% if mapper.hide_button? %>
     <button class="btn btn-default page_action request" disabled="true">
       <i class="fa fa-external-link fa-3x"></i><br/><%= t('plugins.aeon_fulfillment.request_not_allowed') %>
     </button>
+  <% else %>
+
+    <% if tc = mapper.top_containers.first %>
+      <a id='aeon-request' class='btn btn-default' href="<%= app_prefix(tc["ref"]) %>">
+        <i class="<%= t('plugins.aeon_fulfillment.request_button_icon') %>"></i><br/>
+        <%= t('plugins.aeon_fulfillment.request_button_label',
+              label: "#{ tc['_resolved']['type']? tc['_resolved']['type'].humanize : 'Container'} #{tc['_resolved']['indicator']}") %>
+      </a>
+    <% end %>
 
   <% end %>
-
+  <%# End UMD Customization %>
+<% else %>
+<%
+  Rails.logger.info("Aeon Fulfillment Plugin") { "Plugin not configured." }
+%>
 <% end %>
+
+<%
+  Rails.logger.info("Aeon Fulfillment Plugin") { "Finished initializing plugin." }
+%>
