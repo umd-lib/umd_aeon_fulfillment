@@ -83,7 +83,7 @@ in the "[docs/DevelopmentSetup.md][dev_setup]" document in the
 
      > Use the right side menu to identify relevant boxes and place requests.
 
-   * a "Request" button is *not* shown next to the "Citation" button
+   * a "Request" button is *not* shown next to the "Download PDF" button
 
    In the right sidebar, left-click the "Alabama, 1916" entry. The
    "Alabama, 1916" page will be displayed.
@@ -94,7 +94,7 @@ in the "[docs/DevelopmentSetup.md][dev_setup]" document in the
 
       > Use the right side menu to identify relevant boxes and place requests.
 
-    * A "Request Box 1" button is displayed to the right of the "Citation"
+    * A "Request Box 1" button is displayed to the right of the "Download PDF"
       button.
 
    Left-click the "Request Box 1" button. The "Box 1" page will be displayed.
@@ -154,7 +154,7 @@ in the "[docs/DevelopmentSetup.md][dev_setup]" document in the
 
     On the "African-American Education and Labor -- Atlanta University, 1898"
     page, verify that a "Request Box 2" button is shown to the right of the
-    "Citation" button.
+    "Download PDF" button.
 
 ----
 [aeon_fulfillment]: https://github.com/AtlasSystems/ArchivesSpace-Aeon-Fulfillment-Plugin
