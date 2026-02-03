@@ -5,7 +5,7 @@
 <% unless mapper.hide_button? %>
 
   <% if mapper.show_action? && tc = mapper.top_containers.first %>
-    <a id='aeon-request' class='btn btn-default' href="<%= app_prefix(tc["ref"]) %>">
+    <a id='aeon-request' class='btn btn-default page_action' href="<%= app_prefix(tc["ref"]) %>">
       <i class="<%= t('plugins.aeon_fulfillment.request_button_icon') %>"></i><br/>
       <%= t('plugins.aeon_fulfillment.request_button_label',
             label: "#{ tc['_resolved']['type']? tc['_resolved']['type'].humanize : 'Container'} #{tc['_resolved']['indicator']}") %>
