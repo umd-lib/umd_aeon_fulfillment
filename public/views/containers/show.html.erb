@@ -34,7 +34,16 @@ mapper = AeonRecordMapper.mapper_for(@result)
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
   	<% if mapper.show_action?  %>
 		  <div class="request_instructions"><%= t('plugins.aeon_fulfillment.request_instructions') %></div>
-			<%= form_tag "#{mapper.repo_settings[:aeon_web_url]}?action=11&type=200", :id => 'aeon_request_sub', :target => (mapper.repo_settings.fetch(:request_in_new_tab, false) ? 'aeon_request' : '_self') do |f| %>
+      <%#
+        Following incorporates changes from https://github.com/AtlasSystems/ArchivesSpace-Aeon-Fulfillment-Plugin/commit/8e4ea5f936241cbe076063e676289b4cf31e4a39
+        to fix a login loop. As the "top_container_mode" property does not exist
+        in the older aeon_fulfillment plugin version on which this plugin is
+        based, simply hard-coded the appropriate values when
+        "top_container_mode=false".
+      %>
+      <%= form_tag "#{mapper.repo_settings[:aeon_web_url]}", :id => 'aeon_request_sub', :target => (mapper.repo_settings.fetch(:request_in_new_tab, false) ? 'aeon_request' : '_self') do |f| %>
+        <input type='hidden' name='AeonForm' value='ExternalRequest' />
+      <%# End change for https://github.com/AtlasSystems/ArchivesSpace-Aeon-Fulfillment-Plugin/commit/8e4ea5f936241cbe076063e676289b4cf31e4a39 %>
 				<% mapper.map.each do |name, value| %>
 					<% if name.casecmp('requests').zero? %>
 						<% value.each do |request| %>

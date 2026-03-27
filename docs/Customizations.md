@@ -49,6 +49,12 @@ The "umd_aeon_fulfillment" plugin customizes the
   * Volume/Box - The {Box} {Box Series} and {Barcode}
   * Restrictions - whether or not the item is restricted
 
+* An upstream fix (from ArchivesSpace-Aeon-Fulfillment-Plugin commit
+  [8e4ea5f](https://github.com/AtlasSystems/ArchivesSpace-Aeon-Fulfillment-Plugin/commit/8e4ea5f936241cbe076063e676289b4cf31e4a39))
+  has been added to the "public/views/containers/show.html.erb" file to fix a
+  login loop when logging in to Aeon using a "Guest Researcher" (non-Shibboleth)
+  login.
+
 ## Verification Steps
 
 The following steps are intended to verify that the umd_aeon_fulfillment_plugin
@@ -111,9 +117,10 @@ in the "[docs/DevelopmentSetup.md][dev_setup]" document in the
    Left-click the "Request Box 1" button. A separate browser tab will open with
    the Aeon login page.
 
-8) Log in to Aeon. After logging in, the "Special Collections Account" page will
-   be displayed with a "Saved Request" of
-   "William L. Amoss papers Subject Files, 1895-1927".
+8) Log in to Aeon, using the "Login or Register" button in the
+   "UMD Students, Faculty and Staff" panel and your CAS id. After logging in,
+   the "Special Collections Account" page will be displayed with a
+   "Saved Request" of "William L. Amoss papers Subject Files, 1895-1927".
 
    Left-click the "Edit" button in the "Saved Request". The "Edit Request" page
    will be displayed.
@@ -146,7 +153,12 @@ in the "[docs/DevelopmentSetup.md][dev_setup]" document in the
     "William L. Amoss papers Subject Files, 1895-1927" entry, left-click
     "Actions | Cancel Request" to cancel the request without submitting it.
 
-11) (Optional) In ArchivesSpace, type `William L. Amoss papers` into the
+11) (Optional) Using a "guest researcher" Aeon login (creating one, if
+    necessary), repeat steps 8-10, using the "Login or Register" button in the
+    "Guest Researcher" panel, and verifying that an Aeon request is successfully
+    created.
+
+12) (Optional) In ArchivesSpace, type `William L. Amoss papers` into the
     "Search" box in the navigation bar, and then select the
     "William L. Amoss papers" result. On the "William L. Amoss papers" page,
     select "Publications | African-American Education and Labor -- Atlanta University, 1898"
